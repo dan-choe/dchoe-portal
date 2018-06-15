@@ -35,6 +35,12 @@ public class UserController
         return portalRepository.findOne(target);
     }
     
+    @PostMapping("/users")
+    public ReponseEntity User addUser(@RequestBody User newUser)
+    {
+        return portalRepository.save(newUser);
+    }
+    
     @DeleteMapping("/users")
     public ReponseEntity User removeUser(@RequestParam(value = "userid", required = true) Integer userID)
     {
