@@ -13,15 +13,15 @@ import javax.validation.constraints.Size;
 public class User {
 
     public User() {
-
+        super();
     }
     public User(Integer id, String username, String firstName, String lastName, String email) {
-        super();
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.createdAt = new Date();
     }
 
     @Id
@@ -35,6 +35,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private Date createdAt;
 
     public Integer getId() {
         return id;
@@ -59,6 +60,10 @@ public class User {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     @Override
