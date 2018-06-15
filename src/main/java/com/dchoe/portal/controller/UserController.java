@@ -35,7 +35,7 @@ public class UserController
         return portalRepository.findOne(target);
     }
     
-    @PostMapping("/users")
+    @PostMapping()
     public ReponseEntity User addUser(@RequestBody User newUser)
     {
         return portalRepository.save(newUser);
