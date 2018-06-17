@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-//@ActiveProfiles("Test NodeNav")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureDataMongo
