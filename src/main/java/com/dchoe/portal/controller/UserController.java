@@ -25,7 +25,7 @@ public class UserController
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable("id") Long id)
+    public ResponseEntity<?> getUserById(@PathVariable("id") String id)
     {
         return portalRepository.findById(id)
                 .map(user -> ResponseEntity.ok().body(user))
@@ -41,7 +41,7 @@ public class UserController
 
     //    public ResponseEntity<String> removeUser(@RequestParam(value = "userid", required = true) Integer userID)
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeUser(@PathVariable("id") Long id)
+    public ResponseEntity<?> removeUser(@PathVariable("id") String id)
     {
         return portalRepository.findById(id)
                 .map(x -> {

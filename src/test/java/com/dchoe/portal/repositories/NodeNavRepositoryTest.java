@@ -12,6 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 //@ActiveProfiles("Test NodeNav")
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -61,6 +65,36 @@ public class NodeNavRepositoryTest {
             count++;
         }
         assertEquals(2, count);
+    }
+
+    @Test
+    public void checkChildNodes()
+    {
+        NodeNav parentNode = nodeNavRepository.findByName("menu2");
+        NodeNav subNode1 = new NodeNav("menu2-1", 2, false, null);
+
+        if(parentNode != null)
+        {
+            List<NodeNav> children = parentNode.getChildren();
+            List<NodeNav> nodeNavList;
+
+            if(children == null) {
+                assertEquals(false, parentNode.isHasChild());
+
+                nodeNavList = new ArrayList<>();
+                parentNode.setChildren(nodeNavList);
+                parentNode.setHasChild(true);
+                nodeNavList.add(nodeNavRepository.save(subNode1));
+                nodeNavRepository.save(parentNode);
+            }
+            else{
+                assertEquals(true, parentNode.isHasChild());
+
+                nodeNavList = parentNode.getChildren();
+                nodeNavList.add(nodeNavRepository.save(subNode1));
+                nodeNavRepository.save(parentNode);
+            }
+        }
     }
 
     @After
