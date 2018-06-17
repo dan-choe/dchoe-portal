@@ -22,10 +22,6 @@ import java.util.Optional;
 @AutoConfigureDataMongo
 public class NodeNavRepositoryTest {
 
-//    @Autowired
-//    private TestEntityManager entityManager;
-    // Use entityManager to create two new rows of data in the Arrival table of test H2 database.
-
     @Autowired
     private NodeNavRepository nodeNavRepository;
 
