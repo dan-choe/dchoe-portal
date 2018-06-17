@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 // <type of values, type of id>
 @Repository
-public interface portalRepository extends MongoRepository<User, Integer> {
-  List<User> findByName(@Param("username") String username);
+public interface PortalRepository extends MongoRepository<User, String> {
+//  List<User> findByName(@Param("username") String username);
 }

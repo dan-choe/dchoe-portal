@@ -1,56 +1,52 @@
 package com.dchoe.portal.controller;
 
 import com.dchoe.portal.model.User;
-import com.dchoe.portal.repository.portalRepository;
+import com.dchoe.portal.repositories.PortalRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @CrossOrigin("*")
 public class UserController
 {
     @Autowired
-    portalRepository portalRepository;
-    
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> getUsers()
+    private PortalRepository portalRepository;
+
+    public ResponseEntity<List<User>> getAllUsers()
     {
-        //List<User> userList = new ArrayList<User>();
-        //userList.add(new User(1,"test","test-last","test@gmail.com"));
-        //return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
-        return portalRepository.findAll();
+        return new ResponseEntity<List<User>>(portalRepository.findAll(), HttpStatus.OK);
     }
-    
-    @GetMapping("/users")
-    public ReponseEntity User getUser(@RequestParam String target)
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable("id") Long id)
     {
-        return portalRepository.findOne(target);
+        return portalRepository.findById(id)
+                .map(user -> ResponseEntity.ok().body(user))
+                .orElse(ResponseEntity.notFound().build());
     }
-    
+
     @PostMapping()
-    public ReponseEntity User addUser(@RequestBody User newUser)
+    public ResponseEntity<String> addUser(@Valid @RequestBody User newUser)
     {
-        return portalRepository.save(newUser);
+        portalRepository.save(newUser);
+        return new ResponseEntity<String>("Added Response", HttpStatus.OK);
     }
-    
-    @DeleteMapping("/users")
-    public ReponseEntity User removeUser(@RequestParam(value = "userid", required = true) Integer userID)
+
+    //    public ResponseEntity<String> removeUser(@RequestParam(value = "userid", required = true) Integer userID)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> removeUser(@PathVariable("id") Long id)
     {
-        portalRepository.findById(id)
-            .map(x -> {
-                portalRepository.deleteById(id);
-                return ResponseEntity.ok().build();
-            })
-            .orElse(ResponseEntity.notFound().build());
-        // return new ResponseEntity<String>("DELETE Response", HttpStatus.OK);
+        return portalRepository.findById(id)
+                .map(x -> {
+                    portalRepository.deleteById(id);
+                    return ResponseEntity.ok().build();
+                }).orElse(ResponseEntity.notFound().build());
     }
-       
 }

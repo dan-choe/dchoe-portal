@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Document(collection="users")
 @JsonIgnoreProperties(value = {"createdAt"}, allowGetters = true)
@@ -15,8 +16,7 @@ public class User {
     public User() {
         super();
     }
-    public User(Integer id, String username, String firstName, String lastName, String email) {
-        this.id = id;
+    public User(String username, String firstName, String lastName, String email) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -25,7 +25,7 @@ public class User {
     }
 
     @Id
-    private Integer id;
+    private String id;
 
     @NotBlank
     @Size(max=100)
@@ -37,10 +37,10 @@ public class User {
     private String email;
     private Date createdAt;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getFirstName() {
