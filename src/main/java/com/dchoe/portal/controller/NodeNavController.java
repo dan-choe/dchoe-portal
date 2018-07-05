@@ -33,10 +33,11 @@ public class NodeNavController
     }
 
     @PostMapping()
-    public ResponseEntity<String> addNode(@RequestBody NodeNav newNode)
+    public ResponseEntity<?> addNode(@RequestBody NodeNav newNode)
     {
         nodeNavRepository.save(newNode);
-        return new ResponseEntity<String>("Added Response", HttpStatus.OK);
+        return ResponseEntity.ok().build();
+//        return new ResponseEntity<String>("Added Response", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

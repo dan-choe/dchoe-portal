@@ -39,7 +39,7 @@ public class NodeNav {
     private int level;
     private boolean hasChild;
 
-    @DBRef
+//    @DBRef
     private List<NodeNav> children;
 
     public String getId() {

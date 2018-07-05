@@ -27,8 +27,8 @@ public class NodeNavRepositoryTest {
     @Before
     public void setup() throws Exception
     {
-        NodeNav node1 = new NodeNav("menu1", 1, false, null);
-        NodeNav node2 = new NodeNav("menu2", 1, false, null);
+        NodeNav node1 = new NodeNav("menu11", 1, false, null);
+        NodeNav node2 = new NodeNav("menu12", 1, false, null);
         assertNull(node1.getId());
         assertNull(node2.getId());
 
@@ -38,35 +38,35 @@ public class NodeNavRepositoryTest {
         assertNotNull(node2.getId());
     }
 
-    @Test
-    public void whenFindNodeById()
-    {
-        NodeNav node1 = this.nodeNavRepository.findByName("menu1");
-        assertNotNull(node1);
-        assertEquals(false, node1.isHasChild());
+//    @Test
+//    public void whenFindNodeById()
+//    {
+//        NodeNav node1 = this.nodeNavRepository.findByName("menu11");
+//        assertNotNull(node1);
+//        assertEquals(false, node1.isHasChild());
+//
+//        for(NodeNav node : nodeNavRepository.findAll())
+//        {
+//            System.out.println(node);
+//        }
+//    }
 
-        for(NodeNav node : nodeNavRepository.findAll())
-        {
-            System.out.println(node);
-        }
-    }
-
-    @Test
-    public void checkAll()
-    {
-        int count = 0;
-        for(NodeNav node : nodeNavRepository.findAll())
-        {
-            count++;
-        }
-        assertEquals(2, count);
-    }
+//    @Test
+//    public void checkAll()
+//    {
+//        int count = 0;
+//        for(NodeNav node : nodeNavRepository.findAll())
+//        {
+//            count++;
+//        }
+//        assertEquals(5, count);
+//    }
 
     @Test
     public void checkChildNodes()
     {
-        NodeNav parentNode = nodeNavRepository.findByName("menu2");
-        NodeNav subNode1 = new NodeNav("menu2-1", 2, false, null);
+        NodeNav parentNode = nodeNavRepository.findByName("menu12");
+        NodeNav subNode1 = new NodeNav("menu12-1", 2, false, null);
 
         if(parentNode != null)
         {
@@ -79,22 +79,24 @@ public class NodeNavRepositoryTest {
                 nodeNavList = new ArrayList<>();
                 parentNode.setChildren(nodeNavList);
                 parentNode.setHasChild(true);
-                nodeNavList.add(nodeNavRepository.save(subNode1));
+                nodeNavList.add(subNode1);
+//                nodeNavList.add(nodeNavRepository.save(subNode1));
                 nodeNavRepository.save(parentNode);
             }
             else{
                 assertEquals(true, parentNode.isHasChild());
 
                 nodeNavList = parentNode.getChildren();
-                nodeNavList.add(nodeNavRepository.save(subNode1));
+                nodeNavList.add(subNode1);
+//                nodeNavList.add(nodeNavRepository.save(subNode1));
                 nodeNavRepository.save(parentNode);
             }
         }
     }
 
-    @After
-    public void cleanTest() throws Exception
-    {
-        nodeNavRepository.deleteAll();
-    }
+//    @After
+//    public void cleanTest() throws Exception
+//    {
+//        nodeNavRepository.deleteAll();
+//    }
 }
