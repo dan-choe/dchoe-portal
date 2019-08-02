@@ -1,7 +1,8 @@
 package com.dchoe.portal.controller;
 
 import com.dchoe.portal.model.User;
-import com.dchoe.portal.repositories.PortalRepository;
+import com.dchoe.portal.repositories.UserRepository;
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,39 +15,41 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @CrossOrigin("*")
-public class UserController
-{
+public class UserController {
     @Autowired
-    private PortalRepository portalRepository;
+    private UserRepository userRepository;
 
-    public ResponseEntity<List<User>> getAllUsers()
-    {
-        return new ResponseEntity<List<User>>(portalRepository.findAll(), HttpStatus.OK);
+    @GetMapping("/")
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable("id") String id)
-    {
-        return portalRepository.findById(id)
-                .map(user -> ResponseEntity.ok().body(user))
-                .orElse(ResponseEntity.notFound().build());
+    public User getUserBy_id(@PathVariable("id") ObjectId id) {
+        return userRepository.findBy_id(id);
+//        return new ResponseEntity<User>(userRepository.findBy_id(id), HttpStatus.OK);
+//        return new ResponseEntity<User>(userRepository.findBy_id(new ObjectId(id)), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<String> addUser(@Valid @RequestBody User newUser)
-    {
-        portalRepository.save(newUser);
+    public ResponseEntity<String> addUser(@Valid @RequestBody User newUser) {
+        userRepository.save(newUser);
         return new ResponseEntity<String>("Added Response", HttpStatus.OK);
     }
 
-    //    public ResponseEntity<String> removeUser(@RequestParam(value = "userid", required = true) Integer userID)
+    @PutMapping()
+    public void modifyUserBy_id(@PathVariable("id") ObjectId id, @Valid @RequestBody User user) {
+//        user.set_id(id);
+        userRepository.save(user);
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeUser(@PathVariable("id") String id)
-    {
-        return portalRepository.findById(id)
-                .map(x -> {
-                    portalRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
-                }).orElse(ResponseEntity.notFound().build());
+    public void removeUser(@PathVariable("id") ObjectId id) {
+        userRepository.delete(userRepository.findBy_id(id));
+//        return userRepository.findBy_id(id)
+//                .map(x -> {
+//                    userRepository.deleteById(id);
+//                    return ResponseEntity.ok().build();
+//                }).orElse(ResponseEntity.notFound().build());
     }
 }

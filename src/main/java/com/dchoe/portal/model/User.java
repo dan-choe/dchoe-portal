@@ -1,6 +1,7 @@
 package com.dchoe.portal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,36 +14,39 @@ import java.util.Date;
 @JsonIgnoreProperties(value = {"createdAt"}, allowGetters = true)
 public class User {
 
-    public User() {
-        super();
-    }
-    public User(String username, String firstName, String lastName, String email) {
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.createdAt = new Date();
-    }
-
     @Id
-    private String id;
+    private ObjectId _id;
 
     @NotBlank
     @Size(max=100)
     @Indexed(unique=true)
     private String username;
+    private String password;
 
     private String firstName;
     private String lastName;
     private String email;
     private Date createdAt;
 
-    public String getId() {
-        return id;
+    public User() {
+        super();
     }
-    public void setId(String id) {
-        this.id = id;
+
+    public User(String username, String password, String firstName, String lastName, String email) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.createdAt = new Date();
     }
+
+    public ObjectId getId() {
+        return _id;
+    }
+//    public void setId(ObjectId id) {
+//        this._id = id;
+//    }
     public String getFirstName() {
         return firstName;
     }
@@ -68,7 +72,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", email=" + email + "]";
+        return "User{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
