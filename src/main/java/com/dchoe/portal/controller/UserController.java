@@ -25,26 +25,26 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUserBy_id(@PathVariable("id") ObjectId id) {
+    public User getUserBy_id(@PathVariable("id") String id) {
         return userRepository.findBy_id(id);
 //        return new ResponseEntity<User>(userRepository.findBy_id(id), HttpStatus.OK);
 //        return new ResponseEntity<User>(userRepository.findBy_id(new ObjectId(id)), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<String> addUser(@Valid @RequestBody User newUser) {
+    public ResponseEntity<String> addUser(@RequestBody User newUser) {
         userRepository.save(newUser);
         return new ResponseEntity<String>("Added Response", HttpStatus.OK);
     }
 
     @PutMapping()
-    public void modifyUserBy_id(@PathVariable("id") ObjectId id, @Valid @RequestBody User user) {
+    public void modifyUserBy_id(@PathVariable("id") String id, @RequestBody User user) {
 //        user.set_id(id);
         userRepository.save(user);
     }
 
     @DeleteMapping("/{id}")
-    public void removeUser(@PathVariable("id") ObjectId id) {
+    public void removeUser(@PathVariable("id") String id) {
         userRepository.delete(userRepository.findBy_id(id));
 //        return userRepository.findBy_id(id)
 //                .map(x -> {

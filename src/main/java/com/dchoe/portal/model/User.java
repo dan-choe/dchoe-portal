@@ -1,7 +1,6 @@
 package com.dchoe.portal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,18 +14,19 @@ import java.util.Date;
 public class User {
 
     @Id
-    private ObjectId _id;
+    private String _id;
 
     @NotBlank
     @Size(max=100)
     @Indexed(unique=true)
     private String username;
+
     private String password;
 
     private String firstName;
     private String lastName;
     private String email;
-    private Date createdAt;
+    private Date updatedAt;
 
     public User() {
         super();
@@ -38,15 +38,23 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.createdAt = new Date();
+        this.updatedAt = new Date();
     }
 
-    public ObjectId getId() {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getId() {
         return _id;
     }
-//    public void setId(ObjectId id) {
-//        this._id = id;
-//    }
+    public void setId(String id) {
+        this._id = id;
+    }
     public String getFirstName() {
         return firstName;
     }
@@ -65,9 +73,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    public Date getCreatedAt() {
-        return createdAt;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
     @Override
@@ -75,7 +82,7 @@ public class User {
         return "User{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

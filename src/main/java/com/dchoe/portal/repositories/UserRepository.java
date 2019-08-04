@@ -8,5 +8,5 @@ import com.dchoe.portal.model.User;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
-  User findBy_id(ObjectId _id);
+  User findBy_id(String _id);
 }
