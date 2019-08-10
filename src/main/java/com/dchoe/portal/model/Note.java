@@ -12,32 +12,33 @@ import java.util.List;
 public class Note {
 
     @Id
-    private ObjectId _id;
-    private ObjectId userId;
+    private String _id;
+    private String userId;
 
     @NotBlank
     private String title;
     private String body;
     private List<String> tags;
-    private Date updatedAt;
+    private String updatedAt;
+    private String createdAt;
 
     public Note(){
         super();
     }
 
-    public ObjectId get_id() {
+    public String get_id() {
         return _id;
     }
 
-    public void set_id(ObjectId id) {
+    public void set_id(String id) {
         this._id = id;
     }
 
-    public ObjectId getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(ObjectId userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -65,12 +66,20 @@ public class Note {
         this.tags = tags;
     }
 
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override

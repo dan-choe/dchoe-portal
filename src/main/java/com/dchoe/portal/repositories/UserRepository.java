@@ -1,12 +1,12 @@
 package com.dchoe.portal.repositories;
 
+import com.dchoe.portal.model.Users;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import org.bson.types.ObjectId;
-import com.dchoe.portal.model.User;
-
 @Repository
-public interface UserRepository extends MongoRepository<User, String> {
-  User findBy_id(String _id);
+public interface UserRepository extends MongoRepository<Users, String> {
+    Users findBy_id(String _id);
+    Users findByUsername(String username);
 }

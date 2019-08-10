@@ -1,46 +1,54 @@
 package com.dchoe.portal.controller;
 
-import com.dchoe.portal.model.User;
+import com.dchoe.portal.model.Users;
 import com.dchoe.portal.repositories.UserRepository;
-import org.bson.types.ObjectId;
+import com.dchoe.portal.services.CustomUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 @CrossOrigin("*")
 public class UserController {
+
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CustomUserService userService;
+
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Users>> getAllUsers() {
+        return new ResponseEntity<List<Users>>(userRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public User getUserBy_id(@PathVariable("id") String id) {
+    public Users getUserBy_id(@PathVariable("id") String id) {
         return userRepository.findBy_id(id);
-//        return new ResponseEntity<User>(userRepository.findBy_id(id), HttpStatus.OK);
-//        return new ResponseEntity<User>(userRepository.findBy_id(new ObjectId(id)), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<String> addUser(@RequestBody User newUser) {
-        userRepository.save(newUser);
+    public ResponseEntity<String> addUser(@RequestBody Users newUsers) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date currentDate = new Date();
+        newUsers.setUpdatedAt(dateFormat.format(currentDate));
+        userService.saveUser(newUsers);
         return new ResponseEntity<String>("Added Response", HttpStatus.OK);
     }
 
     @PutMapping()
-    public void modifyUserBy_id(@PathVariable("id") String id, @RequestBody User user) {
-//        user.set_id(id);
-        userRepository.save(user);
+    public void modifyUserBy_id(@PathVariable("id") String id, @RequestBody Users users) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date currentDate = new Date();
+        users.setUpdatedAt(dateFormat.format(currentDate));
+        userRepository.save(users);
     }
 
     @DeleteMapping("/{id}")
@@ -52,4 +60,5 @@ public class UserController {
 //                    return ResponseEntity.ok().build();
 //                }).orElse(ResponseEntity.notFound().build());
     }
+
 }
